@@ -11,10 +11,13 @@ module.exports = {
     },
 
     post(req,res,next) {
-    	var regexp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
-    	var urlmatch = req.body.longurl.match(regexp);
+    	var regexp1 = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+    	var urlmatch1 = req.body.longurl.match(regexp1);
 
-    	if (urlmatch !=null) {
+    	var regexp2 = /^[A-Za-z0-9_]{7}$/;
+    	var urlmatch2 = req.body.shorturl.match(regexp2);
+
+    	if (urlmatch1 !=null && urlmatch2 !=null) {
     		var data = new UrlData({
     		longurl: req.body.longurl,
     		shorturl: req.body.shorturl
@@ -25,12 +28,22 @@ module.exports = {
 			res.json(err);
 		} 
 		else {
-			console.log(doc)
-			res.json(doc);
+			console.log(doc);
+			res
+			res.render("new-url",{
+				title: "TinyUrl",
+				longurl: req.body.longurl,
+				shorturl: req.body.shorturl
+			});
 		}   
     });
     	} else {
-    		res.send("Enter complete url e.g. https://www.regex101.com/")
+    		if (urlmatch1 == null) {
+    			res.send("Enter complete long url e.g. https://www.regex101.com/")
+    		} else {
+    			res.send("Short URL must be 7 characters long and it must carry only A-Za-z0-9_");
+    		}
+    		
     	}
     	
   },

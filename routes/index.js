@@ -3,6 +3,6 @@ let Index = require('../controllers/index');
 let router     = express.Router();
 
 router.get('/', Index.index.get);
-router.post('/shortner', Index.index.post);
+router.post('/new-url', Index.index.post);
 
 module.exports = router;

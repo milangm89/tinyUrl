@@ -11,16 +11,11 @@ module.exports = {
     },
 
     post(req,res,next) {
-    	var item = {
-    		lurl: req.body.longurl,
-    		surl: req.body.shorturl
-    	};
-    	var data = new UrlData(item);
-    	// console.log(data);
-    	// console.log(data.lurl);
-    	// console.log(data.surl);
-    // 	data.save();
-  		// res.redirect('/get-data');
+    	var data = new UrlData({
+    		longurl: req.body.longurl,
+    		shorturl: req.body.shorturl
+    	});
+
     	data.save(function(err, doc){
 		if(err){
 			res.json(err);
@@ -29,16 +24,7 @@ module.exports = {
 			console.log(doc)
 			res.json(doc);
 		}   
-    	// res.redirect('/new-url');
     });
-
-  		// data.save()
-    // 	 .then(item => {
-    //       res.send(JSON.stringify(item));
-    // 	})
-    // 	.catch(err => {
-    //   		res.status(400).send("unable to save to database");
-    // 	});
   },
   },
 };

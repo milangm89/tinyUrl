@@ -54,11 +54,6 @@ module.exports = {
                             inpy = doc.shorturl;
                             
                         }
-                    //     console.log("find_shorturl -- > " + inpy);
-                    // // });
-
-                    //     console.log("Ye bc hai -- >"+req.body.longurl);
-                    //     console.log("Ye bc hai -- >"+inpy);
 
                 res.render("new-url", {
                     title: "TinyUrl",

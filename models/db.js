@@ -12,8 +12,16 @@ var urlSchema = new Schema({
 	// 	type: Number,
 	// 	required: true
 	// },
-	longurl : String,
-	shorturl : String
+	longurl : {
+		type: String,
+		unique: true,
+		required: true
+	},
+	shorturl : {
+		type: String,
+		unique: true,
+		required: true
+	}
 }, {collection : 'tinyurl'},
 { versionKey: false });
 

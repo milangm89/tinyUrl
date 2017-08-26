@@ -15,9 +15,6 @@ module.exports = {
             var urlmatch1 = req.body.longurl.match(regexp1);
             var regexp2 = /^(?:[a-z0-9A-Z]{0}|[A-Za-z0-9]{7})$/;
             var urlmatch2 = req.body.shorturl.match(regexp2);
-            console.log("1->" + urlmatch1);
-            console.log("2->" + urlmatch2);
-
             var custom = false;
 
             if (req.body.shorturl !== "") {
@@ -26,67 +23,49 @@ module.exports = {
 
             if (urlmatch1 !== null && urlmatch2 !== null) {
 
-                if (custom === true) {
-                    var items = {
-                        longurl: req.body.longurl,
-                        shorturl: req.body.shorturl
-                    };
-                } else {
-                    var surl = randomstring.generate({
-                        length: 7,
-                        charset: 'alphanumeric'
-                    });
-                    var items = {
-                        longurl: req.body.longurl,
-                        shorturl: surl
-                    };
-                }
+                var inpx = req.body.longurl,
+                    inpy = req.body.shorturl;
 
+                //  query to check if short url exits
+                var query = UrlData.findOne({ 'longurl': req.body.longurl },
+                    function(err, doc) {
+                        if (err) return handleError(err);
+                        
+                        if (doc === null) {
 
-                // } 
-                // custom === true) {
-                var data = new UrlData(items);
+                            // create short links
+                            if (custom === true) {
+                                var surl = req.body.shorturl;
+                            } else {
+                                var surl = randomstring.generate({
+                                    length: 7,
+                                    charset: 'alphanumeric'
+                                });
+                            }
 
-                data.save(function(err, doc) {
-                    if (err) {
-                        res.json(err);
-                    } else {
-                        console.log(doc);
-                        res.render("new-url", {
-                            title: "TinyUrl",
-                            longurl: req.body.longurl,
-                            shorturl: req.body.shorturl
-                        });
-                    }
+                            var items = {
+                                longurl: req.body.longurl,
+                                shorturl: surl
+                            }
+                            var data = new UrlData(items);
+                            inpy = items.shorturl;
+                            data.save();
+                        } else {
+                            inpy = doc.shorturl;
+                            
+                        }
+                        console.log("find_shorturl -- > " + inpy);
+                    // });
+
+                        console.log("Ye bc hai -- >"+req.body.longurl);
+                        console.log("Ye bc hai -- >"+inpy);
+
+                res.render("new-url", {
+                    title: "TinyUrl",
+                    longurl: req.body.longurl,
+                    shorturl: inpy
                 });
-                // } else if (urlmatch1 !==null && 
-                //          urlmatch2 !== null && 
-                //          custom === false) {
-
-                // var surl = randomstring.generate({
-                //     length: 7,
-                //     charset: 'alphanumeric'
-                // });
-
-                // console.log("Hash -- > " + surl);
-                // var data = new UrlData({
-                //     longurl: req.body.longurl,
-                //     // create new short url
-                //     shorturl: surl
-                // });
-
-                // data.save(function(err, doc) {
-                //     if (err) {
-                //         res.json(err);
-                //     } else {
-                //         console.log(doc);
-                //         res.render("new-url", {
-                //             title: "TinyUrl",
-                //             longurl: req.body.longurl,
-                //             shorturl: surl
-                //         });
-                //     }
-                // });
+               }); 
 
             } else {
                 if (urlmatch1 === null) {

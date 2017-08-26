@@ -29,8 +29,10 @@ module.exports = {
                 //  query to check if short url exits
                 var query = UrlData.findOne({ 'longurl': req.body.longurl },
                     function(err, doc) {
-                        if (err) return handleError(err);
-                        
+                        if (err) {
+                            res.send(err)
+                        }
+
                         if (doc === null) {
 
                             // create short links
@@ -52,15 +54,17 @@ module.exports = {
                             data.save();
                         } else {
                             inpy = doc.shorturl;
-                            
+
                         }
 
-                res.render("new-url", {
-                    title: "TinyUrl",
-                    longurl: req.body.longurl,
-                    shorturl: inpy
-                });
-               }); 
+                        // res.redirect('http://google.com');
+
+                        res.render("new-url", {
+                            title: "TinyUrl",
+                            longurl: req.body.longurl,
+                            shorturl: inpy
+                        });
+                    });
 
             } else {
                 if (urlmatch1 === null) {

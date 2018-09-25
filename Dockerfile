@@ -14,4 +14,4 @@ COPY . .
 
 EXPOSE 3000
 
-ENTRYPOINT [ "/usr/src/app/my_wrapper_script.sh" ]
+ENTRYPOINT [ "bash", "-c", "/usr/src/app/my_wrapper_script.sh" ]

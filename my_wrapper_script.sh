@@ -8,7 +8,7 @@ if [ $status -ne 0 ]; then
   exit $status
 fi
 
-sleep 20
+sleep 10
 
 # Start the second process
 /bin/bash my_second_process -D

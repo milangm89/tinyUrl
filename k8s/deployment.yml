@@ -1,0 +1,17 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: node-deployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: node-example
+    spec:
+      containers:
+      - name: node-example
+        image: milangeorge/node-example
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3000

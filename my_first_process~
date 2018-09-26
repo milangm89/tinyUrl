@@ -1,0 +1,5 @@
+#!/bin/bash
+
+rm -f /data/db/mongod.lock
+mkdir -p /data/db/ && \
+nohup bash -c mongod --dbpath /data/db/ &

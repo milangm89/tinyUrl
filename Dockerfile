@@ -2,7 +2,7 @@ FROM node:carbon
 
 MAINTAINER Milan George <milangm89@gmail.com>
 
-RUN apt-get update && apt-get install mongodb -y 
+#RUN apt-get update && apt-get install mongodb -y 
 
 WORKDIR /usr/src/app
 
@@ -14,4 +14,4 @@ COPY . .
 
 EXPOSE 3000
 
-ENTRYPOINT [ "bash", "-c", "/usr/src/app/my_wrapper_script.sh" ]
+CMD [ "npm", "start" ] 
